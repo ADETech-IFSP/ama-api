@@ -1,18 +1,20 @@
 {
-   "name": "ama-api",
-   "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
-   "devDependencies": {
-      "ts-node": "3.3.0",
-      "@types/node": "^8.0.29",
-      "typescript": "3.3.3333"
-   },
-   "dependencies": {
-      "typeorm": "0.2.34",
-      "reflect-metadata": "^0.1.10",
-      "mysql": "^2.14.1"
-   },
-   "scripts": {
-      "start": "ts-node src/index.ts"
-   }
+    "name": "ama-api",
+    "version": "0.0.1",
+    "description": "Awesome project developed with TypeORM.",
+    "devDependencies": {
+        "@types/node": "^8.0.29",
+        "ts-node": "3.3.0",
+        "typescript": "3.3.3333"
+    },
+    "dependencies": {
+        "mysql": "^2.14.1",
+        "reflect-metadata": "^0.1.10",
+        "ts-node-dev": "^1.1.6",
+        "typeorm": "0.2.34"
+    },
+    "scripts": {
+        "start": "ts-node src/index.ts",
+        "typeorm": "ts-node-dev node_modules/typeorm/cli.js"
+    }
 }
