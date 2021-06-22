@@ -41,5 +41,7 @@ class User{
 
     @Column()
     user_type: number;
-    
+
 }
+
+export { User };
