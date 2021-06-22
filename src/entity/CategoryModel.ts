@@ -10,5 +10,7 @@ class Category{
 
     @Column()
     description: string;
-
+    
 }
+
+    export{ Category };
