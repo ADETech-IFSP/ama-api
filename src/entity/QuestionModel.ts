@@ -4,7 +4,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 class Question{
     
     @PrimaryGeneratedColumn()
-    
     readonly id: number;
 
     @Column()
@@ -31,3 +30,5 @@ class Question{
     @Column()
     question_owner: number;
 }
+
+export {Question};
