@@ -32,3 +32,5 @@ class Pet{
     @Column()
     owner_id: number;
 }
+
+export{ Pet };
