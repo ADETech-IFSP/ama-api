@@ -19,3 +19,4 @@ class Auth {
     expira_date : Date; 
 
 }
+export{Auth}
