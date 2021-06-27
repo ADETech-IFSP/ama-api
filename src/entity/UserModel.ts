@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("user")
 class User{
@@ -30,7 +30,7 @@ class User{
     @Column()
     gender: number;
 
-    @Column()
+    @CreateDateColumn()
     join_date: Date;
 
     @Column()
