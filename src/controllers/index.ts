@@ -1,3 +1,4 @@
+import { CategoryController } from "./CategoryController";
 import { UserController } from "./UserController";
 
-export { UserController }
+export { UserController,CategoryController }
