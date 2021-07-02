@@ -34,7 +34,7 @@ export class QuestionController {
 
         return response.json({
             status: "success",
-            message: "Questão adicionada com sucesso!",
+            message: "Question add with success!",
             newQuestion
         }).status(201);
     }
