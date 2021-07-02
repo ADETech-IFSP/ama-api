@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { getCustomRepository } from "typeorm";
-import { title } from "process";
 
 export class QuestionController {
 
@@ -59,5 +58,36 @@ export class QuestionController {
             message: "Question has found with success!",
             question
         }).status(200);
-   }
+    }
+
+    async update(request: Request, response: Response){
+
+    }
+
+    async delete(request: Request, response: Response){
+        const {
+            id
+        } = request.params;
+
+      const questionRepository = getCustomRepository(QuestionRepository);
+      const question = await questionRepository.findOne({
+          id: Number(id)
+      });
+      
+      if(!question){
+          return response.json({
+              status: "error",
+              message: "Question hasn't found." 
+          }).status(404);
+      }
+
+      await questionRepository.delete({
+          id: Number(id)
+      })
+      return response.json({
+          status: "success",
+          message: "Question deleted with success!",
+          question
+      })
+    }
 }

@@ -11,7 +11,7 @@ router.get('/user/delete/:id', userController.delete);
 router.get('/user/:id', userController.read);
 router.post('/forum/create', questionController.create);
 router.get('/forum/:id', questionController.read);
-
+router.get('/forum/delete/:id', questionController.delete);
 
 router.post('/category/create',categoryController.create);
 
