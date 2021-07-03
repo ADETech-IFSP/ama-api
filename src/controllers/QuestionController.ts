@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { getCustomRepository } from "typeorm";
+import { isLoggedIn } from "../services/Auth";
 export class QuestionController {
 
     async create(request: Request, response: Response) {
@@ -73,9 +74,9 @@ export class QuestionController {
         
         let id = Number(request.params.id);
 
-        const client = await isLoggedIn(token);
+        const user = await isLoggedIn(token);
 
-        if(!client) {
+        if(!user) {
             return response.status(500).json({
                 status:"error",
                 message:"Session expired!"
