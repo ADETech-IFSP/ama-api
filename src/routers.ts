@@ -20,6 +20,9 @@ router.put('/forum/update/:id', questionController.update);
 router.post('/category/create',categoryController.create);
 
 router.post('/pet/create', petController.create);
+router.get('/pet/:id', petController.read);
+router.delete('/pet/delete/:id', petController.delete);
+router.put('/pet/update/:id', petController.update);
 
 router.post('/auth/login', authController.doLogin);
 router.post('/auth/validate', authController.validate);
