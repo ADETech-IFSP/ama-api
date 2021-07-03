@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("question")
 class Question{
@@ -21,10 +21,10 @@ class Question{
     @Column()
     state: number;
 
-    @Column()
+    @CreateDateColumn()
     created_date: Date;
 
-    @Column()
+    @CreateDateColumn()
     closed_date: Date;
 
     @Column()

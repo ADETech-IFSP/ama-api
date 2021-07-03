@@ -14,7 +14,7 @@ class Pet{
     @Column()
     category_id: number;
      
-    @Column()
+    @CreateDateColumn()
     birth_date: Date;
 
     @Column()

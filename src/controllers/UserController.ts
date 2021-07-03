@@ -60,4 +60,65 @@ export class UserController{
 
     }
 
+    async read(request: Request, response: Response){
+        const {
+            id
+        } = request.params;
+
+        const userRepository = getCustomRepository(UserRepository);
+        const user = await userRepository.findOne({
+            id: Number(id)
+        })
+
+        if(!user){
+            return response.json({
+                status: "error",
+                message: "Usuário não encontrado."
+            }).status(404);
+        }
+
+        delete user.password;
+
+        return response.json({
+            status: "success",
+            message: "Usuário encontrado com sucesso!",
+            user
+        }).status(200);
+    }
+
+    async update(request: Request, response: Response){
+        
+    }
+
+    async delete(request: Request, response: Response){
+        const {
+            id
+        } = request.params;
+
+        const userRepository = getCustomRepository(UserRepository);
+        const user = await userRepository.findOne({
+            id: Number(id)
+        });
+        
+        if(!user){
+            return response.json({
+                status: "error",
+                message: "Usuário não encontrado."
+            }).status(404);
+        }
+
+        delete user.password;
+
+        await userRepository.delete({
+            id: Number(id)
+        })
+
+        return response.json({
+            status: "success",
+            message: "Usuário deletado com sucesso!",
+            user
+        })
+
+    }
+
 }

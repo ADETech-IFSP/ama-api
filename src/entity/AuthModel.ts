@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn  } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn  } from "typeorm";
 
 @Entity("auth")
 class Auth {
@@ -12,10 +12,10 @@ class Auth {
     @Column()
     token : string;
         
-    @Column()
+    @CreateDateColumn()
     created_date : Date;
 
-    @Column()
+    @CreateDateColumn()
     expira_date : Date; 
 
 }
