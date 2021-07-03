@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { getCustomRepository } from "typeorm";
-import { title } from "process";
-
+import { isLoggedIn } from "../services/Auth";
 export class QuestionController {
 
     async create(request: Request, response: Response) {
@@ -38,6 +37,7 @@ export class QuestionController {
             newQuestion
         }).status(201);
     }
+    
     async read(request: Request, response: Response) {
         const {
             id
@@ -59,5 +59,72 @@ export class QuestionController {
             message: "Question has found with success!",
             question
         }).status(200);
-   }
+    }
+
+    async update(request: Request, response: Response){
+        const {
+            title,
+            question,
+            vote_down,
+            vote_up,
+            state,
+            question_owner,
+            token
+        } = request.body;
+        
+        let id = Number(request.params.id);
+
+        const user = await isLoggedIn(token);
+
+        if(!user) {
+            return response.status(500).json({
+                status:"error",
+                message:"Session expired!"
+            });
+        }
+
+        const questionRepository = getCustomRepository(QuestionRepository);
+        const updatedQuestion = {
+            title,
+            vote_down,
+            vote_up,
+            state,
+            question_owner,
+            id
+        }
+        await questionRepository.update(id, updatedQuestion);
+
+        return response.status(201).json({
+            status:"success",
+            message: "Question has updated with success",
+            question
+        })
+    }
+
+    async delete(request: Request, response: Response){
+        const {
+            id
+        } = request.params;
+
+      const questionRepository = getCustomRepository(QuestionRepository);
+      const question = await questionRepository.findOne({
+          id: Number(id)
+      });
+      
+      if(!question){
+          return response.json({
+              status: "error",
+              message: "Question hasn't found." 
+          }).status(404);
+      }
+
+      await questionRepository.delete({
+          id: Number(id)
+      })
+      return response.json({
+          status: "success",
+          message: "Question deleted with success!",
+          question
+      })
+    }
 }
