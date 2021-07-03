@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { getCustomRepository } from "typeorm";
-
 export class QuestionController {
 
     async create(request: Request, response: Response) {
@@ -37,6 +36,7 @@ export class QuestionController {
             newQuestion
         }).status(201);
     }
+    
     async read(request: Request, response: Response) {
         const {
             id
@@ -61,7 +61,43 @@ export class QuestionController {
     }
 
     async update(request: Request, response: Response){
+        const {
+            title,
+            question,
+            vote_down,
+            vote_up,
+            state,
+            question_owner,
+            token
+        } = request.body;
+        
+        let id = Number(request.params.id);
 
+        const client = await isLoggedIn(token);
+
+        if(!client) {
+            return response.status(500).json({
+                status:"error",
+                message:"Session expired!"
+            });
+        }
+
+        const questionRepository = getCustomRepository(QuestionRepository);
+        const updatedQuestion = {
+            title,
+            vote_down,
+            vote_up,
+            state,
+            question_owner,
+            id
+        }
+        await questionRepository.update(id, updatedQuestion);
+
+        return response.status(201).json({
+            status:"success",
+            message: "Question has updated with success",
+            question
+        })
     }
 
     async delete(request: Request, response: Response){
