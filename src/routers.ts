@@ -1,9 +1,5 @@
 import { Router } from 'express';
-<<<<<<< HEAD
-import { CategoryController, QuestionController, UserController, } from './controllers';
-=======
 import { AuthController, CategoryController, PetController, QuestionController, UserController  } from './controllers';
->>>>>>> 9c4c11418e55977e0ef5e158bb427191219e40fe
 
 const router = Router();
 const userController = new UserController();
@@ -23,14 +19,14 @@ router.delete('/forum/delete/:id', questionController.delete);
 router.put('/forum/update/:id', questionController.update);
 
 router.post('/category/create',categoryController.create);
+router.get('/category/:id',categoryController.read);
+router.delete('/category/delete/:id',categoryController.delete);
+router.post('/category/update/:id',categoryController.update);
 
-<<<<<<< HEAD
 
-=======
 router.post('/pet/create', petController.create);
 
 router.post('/auth/login', authController.doLogin);
 router.post('/auth/validate', authController.validate);
->>>>>>> 9c4c11418e55977e0ef5e158bb427191219e40fe
 
 export { router }
