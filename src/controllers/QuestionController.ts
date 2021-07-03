@@ -11,14 +11,17 @@ export class QuestionController {
             vote_down,
             vote_up,
             state,
-            user_id,
+            question_owner,
         } = request.body;
 
-        //if (question == null|| question == "" || title == null || title == "")
-
         const questionRepository = getCustomRepository(QuestionRepository);
-
-        const question_owner = Number(user_id);
+        
+        if (!question || !title) {
+        return response.json({
+        status: "error",
+        message: "Question or title is empty!"
+        }).status(404);
+        }
 
         const newQuestion = questionRepository.create({
             title,
@@ -33,7 +36,7 @@ export class QuestionController {
 
         return response.json({
             status: "success",
-            message: "Question add with success!",
+            message: "Question successfully added!",
             newQuestion
         }).status(201);
     }
@@ -51,12 +54,12 @@ export class QuestionController {
         if (!question) {
             return response.json({
                 staus: "error",
-                message: "Question has not found."
+                message: "Question not found."
             }).status(404);
         }
         return response.json({
             status: "success",
-            message: "Question has found with success!",
+            message: "Question found successfully!",
             question
         }).status(200);
     }
@@ -96,7 +99,7 @@ export class QuestionController {
 
         return response.status(201).json({
             status:"success",
-            message: "Question has updated with success",
+            message: "Question successfully updated!",
             question
         })
     }
@@ -114,7 +117,7 @@ export class QuestionController {
       if(!question){
           return response.json({
               status: "error",
-              message: "Question hasn't found." 
+              message: "Question not found." 
           }).status(404);
       }
 
@@ -123,7 +126,7 @@ export class QuestionController {
       })
       return response.json({
           status: "success",
-          message: "Question deleted with success!",
+          message: "Question successfully deleted!",
           question
       })
     }
