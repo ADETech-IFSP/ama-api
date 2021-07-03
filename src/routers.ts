@@ -21,7 +21,7 @@ router.put('/forum/update/:id', questionController.update);
 router.post('/category/create',categoryController.create);
 router.get('/category/:id',categoryController.read);
 router.delete('/category/delete/:id',categoryController.delete);
-router.post('/category/update/:id',categoryController.update);
+router.post('/category/create',categoryController.update);
 
 
 router.post('/pet/create', petController.create);

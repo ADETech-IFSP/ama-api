@@ -36,7 +36,7 @@ export class CategoryController {
 
         return response.json({
             status: "sucess",
-            message: "categoria has found with success",
+            message: "Category successfully created ",
             category
         }).status(201);
     }
@@ -54,12 +54,12 @@ export class CategoryController {
         if (!category) {
             return response.json({
                 status: "error",
-                message: "Categoria não encontrada"
+                message: "Category has not found"
             }).status(404);
         }
         return response.json({
             status: "sucess",
-            message: "Categoria encontrada com sucesso",
+            message: "Category successfully added",
             category
         }).status(200);
     }
@@ -92,7 +92,7 @@ export class CategoryController {
 
         return response.status(201).json({
             status: "success",
-            message: "Category has updated with success"
+            message: "Category successfully updated"
         })
     }
 
@@ -119,7 +119,7 @@ export class CategoryController {
 
         return response.json({
             status: "success",
-            message: "Category deleted with success!",
+            message: "Category successfully deleted",
             category
         })
 
