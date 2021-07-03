@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("pet")
 class Pet{
@@ -14,7 +14,7 @@ class Pet{
     @Column()
     category_id: number;
      
-    @Column()
+    @CreateDateColumn()
     birth_date: Date;
 
     @Column()
@@ -23,7 +23,7 @@ class Pet{
     @Column()
     photo_url: string;
 
-    @Column()
+    @CreateDateColumn()
     join_date: Date;
 
     @Column()
