@@ -6,4 +6,4 @@ class AuthRepository extends Repository <Auth>{
 
 }
 
-export {Auth}
+export { AuthRepository }
