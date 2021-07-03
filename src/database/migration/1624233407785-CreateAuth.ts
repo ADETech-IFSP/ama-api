@@ -10,7 +10,7 @@ export class CreateAuth1624233407785 implements MigrationInterface {
                     name: "auth",
                     columns: [
                         {
-                           name: "id",
+                            name: "id",
                             type: "int",
                             isPrimary: true,
                             isGenerated: true,
@@ -31,7 +31,7 @@ export class CreateAuth1624233407785 implements MigrationInterface {
                             default: "now()"
                         },
                         {
-                            name: "expira_date",
+                            name: "expire_date",
                             type: "timestamp"
                         },   
                     ],

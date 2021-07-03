@@ -1,9 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn  } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn  } from "typeorm";
 
 @Entity("auth")
 class Auth {
 
-    @PrimaryColumn()    
+    @PrimaryGeneratedColumn()    
     readonly id : number;
 
     @Column()
@@ -16,7 +16,7 @@ class Auth {
     created_date : Date;
 
     @CreateDateColumn()
-    expira_date : Date; 
+    expire_date : Date; 
 
 }
 export{Auth}

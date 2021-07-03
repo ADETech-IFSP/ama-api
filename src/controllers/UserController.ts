@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../repository/UserRepository";
 import bcrypt = require('bcrypt');
+import { isLoggedIn } from "../services/Auth";
+import { uploadImage } from "../services/Cloudnary";
+import { sendEmailCode } from "../services/Twilio";
 
 export class UserController{
 
@@ -52,6 +55,8 @@ export class UserController{
         });
 
         await userRepository.save(user);
+
+        sendEmailCode(user);
 
         return response.json({
             status: "success",
@@ -119,6 +124,32 @@ export class UserController{
             user
         })
 
+    }
+
+    async uploadProfilePhoto(request: Request, response: Response){
+        const {
+            image,
+            token
+        } = request.body;
+
+        const userRepository = getCustomRepository(UserRepository);
+        const user = await isLoggedIn(token);
+
+        if(!user){
+            return response.json({
+                status: "error",
+                message: "User is not logged in."
+            }).status(403);
+        }
+
+        user.photo_url = await uploadImage(image);
+        await userRepository.update(user.id, user);
+
+        return response.json({
+            status: "success",
+            message: "The photo has been uploaded.",
+            photo: user.photo_url
+        }).status(201)
     }
 
 }
