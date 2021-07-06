@@ -17,6 +17,7 @@ router.post('/user/create', userController.create);
 router.get('/user/delete/:id', userController.delete);
 router.get('/user/:id', userController.read);
 router.post('/user/photo-upload', userController.uploadProfilePhoto);
+router.post('/user/validate', userController.validateUser);
 
 router.post('/forum/create', questionController.create);
 router.get('/forum/:id', questionController.read);

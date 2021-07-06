@@ -152,4 +152,29 @@ export class UserController{
         }).status(201)
     }
 
+    async validateUser(request: Request, response: Response){
+        const {
+            email
+        } = request.body;
+        
+        const userRepository = getCustomRepository(UserRepository);
+
+        const user = await userRepository.findOne({
+            email
+        })
+
+        if(user){
+            return response.json({
+                status: "error",
+                message: "User already exists."
+            }).status(403)
+        }
+
+        return response.json({
+            status: "success",
+            message: "User is not registered."
+        }).status(200)
+
+    }
+
 }
