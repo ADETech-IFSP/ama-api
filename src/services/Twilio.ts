@@ -1,7 +1,7 @@
 import sendgrid = require('@sendgrid/mail');
 import { User } from '../entity/UserModel';
 
-sendgrid.setApiKey("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")
+sendgrid.setApiKey("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")
 
 const sendEmailCode = (user: User) => {
 
