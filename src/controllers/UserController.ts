@@ -4,7 +4,7 @@ import { UserRepository } from "../repository/UserRepository";
 import bcrypt = require('bcrypt');
 import { isLoggedIn } from "../services/Auth";
 import { uploadImage } from "../services/Cloudnary";
-import { sendEmailCode } from "../services/Twilio";
+import { sendConfirmCode, sendEmailCode, sendMessage } from "../services/Twilio";
 
 export class UserController{
 
@@ -56,7 +56,7 @@ export class UserController{
 
         await userRepository.save(user);
 
-        sendEmailCode(user);
+        sendConfirmCode(user.confirm_code, `+55${user.telephone}`);
 
         return response.json({
             status: "success",
