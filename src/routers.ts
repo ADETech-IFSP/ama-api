@@ -18,6 +18,8 @@ router.get('/user/delete/:id', userController.delete);
 router.get('/user/:id', userController.read);
 router.post('/user/photo-upload', userController.uploadProfilePhoto);
 router.post('/user/validate', userController.validateUser);
+router.get('/user/resend/:id', userController.resendCode);
+router.post('/user/account/confirm', userController.confirmCode);
 
 router.post('/forum/create', questionController.create);
 router.get('/forum/:id', questionController.read);

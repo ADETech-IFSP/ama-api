@@ -34,7 +34,7 @@ export class UserController{
             }).status(503);
         }
 
-        const confirm_code =  Math.floor(Math.random()*16777215).toString(16);
+        const confirm_code = String(Math.floor(100000 + Math.random() * 900000));
         const verified = false;
         const user_type = 0;
 
@@ -58,11 +58,70 @@ export class UserController{
 
         sendConfirmCode(user.confirm_code, `+55${user.telephone}`);
 
+        delete user.password;
+        delete user.confirm_code;
+        delete user.user_type;
+
         return response.json({
             status: "success",
-            message: "Usuário cadastrado com sucesso!"
+            message: "Usuário cadastrado com sucesso!",
+            user
         }).status(201);
 
+    }  
+
+    async confirmCode(request: Request, response: Response){
+        const {
+            id, 
+            confirm_code
+        } = request.body;
+
+        const userRepository = getCustomRepository(UserRepository);
+        const userExists = await userRepository.findOne({
+            id,
+            confirm_code,
+            verified: false
+        });
+
+        if(!userExists){
+            return response.json({
+                status: "error",
+                message: "The user already validate this account"
+            }).status(404)
+        }
+
+        userExists.verified = true;
+
+        await userRepository.update(id, userExists);
+
+        return response.json({
+            status: "success",
+            message: "The code has been registered"
+        }).json(200)
+    }
+
+    async resendCode(request: Request, response: Response){
+        const id = Number(request.params.id);
+
+        const userRepository = getCustomRepository(UserRepository);
+        const userExists = await userRepository.findOne({
+            id,
+            verified: false
+        });
+
+        if(!userExists){
+            return response.json({
+                status: "error",
+                message: "The user already validate this account"
+            }).status(404)
+        }
+
+        sendConfirmCode(userExists.confirm_code, `+55${userExists.telephone}`);
+
+        return response.json({
+            status: "success",
+            message: "The code has been sended"
+        }).json(200)
     }
 
     async read(request: Request, response: Response){
