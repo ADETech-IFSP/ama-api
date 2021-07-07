@@ -1,12 +1,13 @@
 import sendgrid = require('@sendgrid/mail');
 import { User } from '../entity/UserModel';
-const Twilio = require('twilio');
+var twilio = require('twilio');
+
 
 const accountSid = "ACf04c7c952fc9558c0e6be0c1c5858f96";
 const authToken = "bf060a1bc57f5b167fc53852ec895af9";
 const twilioNumber = "+1 864 651 1976";
 
-const client = new Twilio(accountSid, authToken);
+const client = new twilio(accountSid, authToken);
 
 
 sendgrid.setApiKey("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")
