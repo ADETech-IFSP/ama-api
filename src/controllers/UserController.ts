@@ -4,7 +4,7 @@ import { UserRepository } from "../repository/UserRepository";
 import bcrypt = require('bcrypt');
 import { isLoggedIn } from "../services/Auth";
 import { uploadImage } from "../services/Cloudnary";
-import { sendConfirmCode } from "../services/Twilio";
+import { sendEmailCode } from "../services/Twilio";
 
 export class UserController{
 
@@ -34,7 +34,7 @@ export class UserController{
             }).status(503);
         }
 
-        const confirm_code = String(Math.floor(100000 + Math.random() * 900000));
+        const confirm_code =  Math.floor(Math.random()*16777215).toString(16);
         const verified = false;
         const user_type = 0;
 
@@ -56,72 +56,13 @@ export class UserController{
 
         await userRepository.save(user);
 
-        sendConfirmCode(user.confirm_code, `+55${user.telephone}`);
-
-        delete user.password;
-        delete user.confirm_code;
-        delete user.user_type;
+        sendEmailCode(user);
 
         return response.json({
             status: "success",
-            message: "Usuário cadastrado com sucesso!",
-            user
+            message: "Usuário cadastrado com sucesso!"
         }).status(201);
 
-    }  
-
-    async confirmCode(request: Request, response: Response){
-        const {
-            id, 
-            confirm_code
-        } = request.body;
-
-        const userRepository = getCustomRepository(UserRepository);
-        const userExists = await userRepository.findOne({
-            id,
-            confirm_code,
-            verified: false
-        });
-
-        if(!userExists){
-            return response.json({
-                status: "error",
-                message: "The user already validate this account"
-            }).status(404)
-        }
-
-        userExists.verified = true;
-
-        await userRepository.update(id, userExists);
-
-        return response.json({
-            status: "success",
-            message: "The code has been registered"
-        }).json(200)
-    }
-
-    async resendCode(request: Request, response: Response){
-        const id = Number(request.params.id);
-
-        const userRepository = getCustomRepository(UserRepository);
-        const userExists = await userRepository.findOne({
-            id,
-            verified: false
-        });
-
-        if(!userExists){
-            return response.json({
-                status: "error",
-                message: "The user already validate this account"
-            }).status(404)
-        }
-
-        sendConfirmCode(userExists.confirm_code, `+55${userExists.telephone}`);
-
-        return response.json({
-            status: "success",
-            message: "The code has been sended"
-        }).json(200)
     }
 
     async read(request: Request, response: Response){
@@ -209,31 +150,6 @@ export class UserController{
             message: "The photo has been uploaded.",
             photo: user.photo_url
         }).status(201)
-    }
-
-    async validateUser(request: Request, response: Response){
-        const {
-            email
-        } = request.body;
-        
-        const userRepository = getCustomRepository(UserRepository);
-
-        const user = await userRepository.findOne({
-            email
-        })
-
-        if(user){
-            return response.json({
-                status: "error",
-                message: "User already exists."
-            }).status(403)
-        }
-
-        return response.json({
-            status: "success",
-            message: "User is not registered."
-        }).status(200)
-
     }
 
 }

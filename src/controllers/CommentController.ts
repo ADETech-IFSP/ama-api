@@ -69,12 +69,22 @@ export class CommentController{
           });
       }
       const commentRepository = getCustomRepository(CommentRepository);
-      const updateComment ={
+    //  const comment_verification = await commentRepository.findOne(id);
+    //    if (comment_verification.question_id != user_id || !comment_verification){  
+    //    return response.json({
+    //          status: "error",
+    //          message: "comment not found" 
+    //    )}.status(404);
+    //  }
+    
+    
+
+      const updatedComment ={
           comment,
           is_solution,
           id
       }
-      await commentRepository.update(id,updateComment);
+      await commentRepository.update(id,updatedComment);
 
       return response.status(201).json({
           status : "success",

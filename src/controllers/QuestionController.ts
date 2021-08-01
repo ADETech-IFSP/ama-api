@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { getCustomRepository } from "typeorm";
 import { isLoggedIn } from "../services/Auth";
+import { Pet } from "../entity/PetModel";
 export class QuestionController {
 
     async create(request: Request, response: Response) {
@@ -87,6 +88,15 @@ export class QuestionController {
         }
 
         const questionRepository = getCustomRepository(QuestionRepository);
+        const question_verification = await questionRepository.findOne(id);
+
+        if(question_verification.question_owner != user.id || !question_verification){
+            return response.json({
+                status: "error",
+                message: "Question not found."
+            }).status(404);
+        }
+
         const updatedQuestion = {
             title,
             vote_down,
@@ -110,6 +120,14 @@ export class QuestionController {
         } = request.params;
 
       const questionRepository = getCustomRepository(QuestionRepository);
+    //  const question_verification = await questionRepository.findOne(id);
+
+    //  if(question_verification.question_owner != user.id || !question_verification){
+    //     return response.json({
+    //          status: "error",
+    //         message: "Question not found."
+    //      }).status(404);
+    //  }
       const question = await questionRepository.findOne({
           id: Number(id)
       });

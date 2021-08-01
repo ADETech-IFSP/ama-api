@@ -2,27 +2,24 @@
     "name": "ama-api",
     "version": "0.0.1",
     "description": "Awesome project developed with TypeORM.",
-    "devDependencies": {},
+    "devDependencies": {
+        "@types/node": "^8.0.29",
+        "ts-node": "3.3.0",
+        "typescript": "3.3.3333"
+    },
     "dependencies": {
         "-": "^0.0.1",
         "@sendgrid/mail": "^7.4.5",
         "@types/bcrypt": "^5.0.0",
-        "@types/cors": "^2.8.10",
         "@types/express": "^4.17.12",
-        "@types/node": "^8.0.29",
         "bcrypt": "^5.0.1",
         "cloudinary": "^1.26.1",
-        "cors": "^2.8.5",
         "express": "^4.17.1",
         "g": "^2.0.1",
         "mysql": "^2.14.1",
-        "node-mailjet": "^3.3.4",
         "reflect-metadata": "^0.1.10",
-        "ts-node": "3.3.0",
         "ts-node-dev": "^1.1.6",
-        "twilio": "^3.65.0",
-        "typeorm": "^0.2.34",
-        "typescript": "3.3.3333"
+        "typeorm": "^0.2.34"
     },
     "scripts": {
         "start": "ts-node src/server.ts",

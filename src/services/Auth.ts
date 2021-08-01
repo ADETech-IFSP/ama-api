@@ -2,7 +2,7 @@ import { getCustomRepository } from "typeorm";
 import { AuthRepository } from "../repository/AuthRepository";
 import { UserRepository } from "../repository/UserRepository";
 
-const bcrypt = require('bcrypt');
+import bcrypt = require('bcrypt');
 
 var rand = function() {
     return Math.random().toString(36).substr(2);
@@ -35,8 +35,9 @@ export const validateLogin = async (email : string, password : string) => {
     if(!user){
         return null;
     }
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if(bcrypt.compare(password, user.password)){
+    if(isValidPassword){
         const token = generateToken();
         const auth = authRepository.create({
             user_id: user.id,

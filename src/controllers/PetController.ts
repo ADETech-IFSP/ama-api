@@ -14,8 +14,17 @@ export class PetController{
             photo_url,
             description,
             category_id,
-            owner_id,
-        } = request.body
+        } = request.body;
+        var token = (request.headers.token || "").toString();
+
+        const user = await isLoggedIn(token);
+
+        if(!user){
+            return response.status(500).json({
+                status: "error",
+                message: "Expired session!"
+            });
+        }
 
         const petRepository = getCustomRepository(PetRepository);
 
@@ -27,7 +36,7 @@ export class PetController{
             photo_url,
             description,
             category_id,
-            owner_id,
+            owner_id: user.id,
         });
         await petRepository.save(pet);
 
@@ -71,23 +80,30 @@ export class PetController{
             gender,
             photo_url,
             description,
-            category_id,
-            owner_id,
-            token
+            category_id
         } = request.body;
-
         let id = Number(request.params.id);
+        var token = (request.headers.token || "").toString();
 
-        const pet = await isLoggedIn(token);
+        const user = await isLoggedIn(token);
 
-        if(!pet){
+        if(!user){
             return response.status(500).json({
                 status:"error",
                 message:"Session expired!"
             });
         }
 
-        const petRepository = getCustomRepository (PetRepository);
+        const petRepository = getCustomRepository(PetRepository);
+        const pet = await petRepository.findOne(id);
+
+        if(pet.owner_id != user.id || !pet){
+            return response.json({
+                status: "error",
+                message: "Pet not found." 
+            }).status(404);
+        }
+
         const updatedPet = {
             name,
             breed,
@@ -95,16 +111,14 @@ export class PetController{
             gender,
             photo_url,
             description,
-            category_id,
-            owner_id,
-            id
+            category_id
         }
         await petRepository.update(id, updatedPet);
 
         return response.status(201).json({
             status:"success",
             message: "Pet has updated with success",
-            pet
+            updatedPet
         })
 
     }
@@ -136,6 +150,29 @@ export class PetController{
             pet
         })
 
+    }
+    
+    async getAllPets(request: Request, response: Response){
+        var token = (request.headers.token || "").toString();
+        const user = await isLoggedIn(token);
+
+        if(!user){
+            return response.status(500).json({
+                status:"error",
+                message:"Session expired!"
+            });
+        }
+
+        const petRepository = getCustomRepository(PetRepository);
+        const pets = await petRepository.find({
+            owner_id: user.id
+        });
+
+        return response.status(200).json({
+            status: "success",
+            message: `Returned ${pets.length} results.`,
+            pets
+        })
     }
 
 }

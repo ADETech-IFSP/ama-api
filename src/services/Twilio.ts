@@ -1,23 +1,21 @@
-const Twilio = require('twilio');
+import sendgrid = require('@sendgrid/mail');
+import { User } from '../entity/UserModel';
 
-const accountSid = "ACf04c7c952fc9558c0e6be0c1c5858f96";
-const authToken = "10e056765230a3fced74ceaefedaf04f";
-const twilioNumber = "+18646511976";
+sendgrid.setApiKey("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")
 
-const client = new Twilio(accountSid, authToken);
+const sendEmailCode = (user: User) => {
 
-export const sendMessage = (message: string, phone: string) => {
-    client.messages
-    .create({
-      from: twilioNumber,
-      to: phone,
-      body: message,
-    })
-    .then((message) => {
-        console.log(message)
-    });
+    const msg = {
+        to: user.email,
+        from: "noreply@amemais.tech",
+        subject: "Confirme sua conta!",
+        text: `Olá ${user.name}! Este é o seu código de confirmação:`,
+        html: `Olá ${user.name}! Este é o seu código de confirmação: ${user.confirm_code}`
+    }
+
+    sendgrid.send(msg);    
+    
 }
 
-export const sendConfirmCode = (code: string, phone: string) => {
-    sendMessage(`O seu código de confirmação é ${code}`, phone);
-}
+
+export { sendEmailCode }
