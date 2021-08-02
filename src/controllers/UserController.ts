@@ -57,10 +57,13 @@ export class UserController{
         await userRepository.save(user);
 
         sendEmailCode(user);
+        delete user.password;
+        delete user.confirm_code;
 
         return response.json({
             status: "success",
-            message: "Usuário cadastrado com sucesso!"
+            message: "Usuário cadastrado com sucesso!",
+            user
         }).status(201);
 
     }
