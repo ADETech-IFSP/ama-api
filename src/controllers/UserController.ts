@@ -152,4 +152,27 @@ export class UserController{
         }).status(201)
     }
 
+    async validate(request: Request, response: Response){
+        const {
+            email
+        } = request.body;
+        const userRepository = getCustomRepository(UserRepository);
+        const userAlreadyExists = await userRepository.findOne({
+            email
+        })
+
+        if(!userAlreadyExists){
+            return response.json({
+                status: "success",
+                message: "User available."
+            }).status(200);
+        }
+
+        return response.json({
+            status: "error",
+            message: "User already exists!"
+        }).status(403);
+
+    }
+
 }
