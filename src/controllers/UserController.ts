@@ -98,6 +98,34 @@ export class UserController{
         
     }
 
+    async confirm(request: Request, response: Response){
+        const {
+            id,
+            confirm_code
+        } = request.body;
+
+        const userRepository = getCustomRepository(UserRepository);
+        const user = await userRepository.findOne({
+            id
+        });
+
+        if(!user || user.confirm_code != confirm_code){
+            return response.json({
+                status: "error",
+                message: "erro no código"
+            })
+        }
+
+        await userRepository.update(id ,{
+            confirm_code: true
+        });
+
+        return response.json({
+            status: "success",
+            message: "Has been activated"
+        })
+    }
+
     async delete(request: Request, response: Response){
         const {
             id
