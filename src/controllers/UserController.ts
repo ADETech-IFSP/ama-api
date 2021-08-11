@@ -4,7 +4,7 @@ import { UserRepository } from "../repository/UserRepository";
 import bcrypt = require('bcrypt');
 import { isLoggedIn } from "../services/Auth";
 import { uploadImage } from "../services/Cloudnary";
-import { sendEmailCode } from "../services/Twilio";
+import { sendEmailCode } from "../services/Email";
 
 export class UserController{
 
