@@ -117,7 +117,7 @@ export class UserController{
         }
 
         await userRepository.update(id ,{
-            confirm_code: true
+            verified: true
         });
 
         return response.json({
