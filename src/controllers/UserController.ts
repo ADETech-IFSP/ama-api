@@ -116,7 +116,7 @@ export class UserController{
             })
         }
 
-        await userRepository.update(id ,{
+        await userRepository.update(id,{            
             verified: true
         });
 
