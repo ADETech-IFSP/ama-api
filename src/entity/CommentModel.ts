@@ -1,4 +1,4 @@
-import { Column,CreateDateColumn,Entity,PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("comment")
 class Comment{
@@ -12,11 +12,10 @@ user_id : number;
 comment : string;
 
 @Column()
-is_solution : boolean;
+solved : boolean;
 
 @Column()
 question_id : number;
-
 }
 
 export{ Comment };

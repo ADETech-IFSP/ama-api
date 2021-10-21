@@ -1,4 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Breed } from "./BreedModel";
+import { Food } from "./FoodModel";
+import { Task } from "./TaskModel";
+import { User } from "./UserModel";
 
 @Entity("pet")
 class Pet{
@@ -8,11 +12,8 @@ class Pet{
     @Column()
     name: string;
     
-    @Column()
-    breed: string;
-    
-    @Column()
-    category_id: number;
+    @ManyToOne(() => Breed, breed => breed.pets)
+    breed: Breed;    
      
     @CreateDateColumn()
     birth_date: Date;
@@ -29,8 +30,14 @@ class Pet{
     @Column()
     description: string;
 
-    @Column()
-    owner_id: number;
+    @ManyToOne(() => User, user => user.pets)
+    owner: User;
+
+    @OneToMany(() => Food, food => food.pet)
+    foods: Food[]
+
+    @OneToMany(() => Task, task => task.pet)
+    tasks: Task[]
 }
 
 export{ Pet };

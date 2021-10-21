@@ -1,20 +1,3 @@
 {
-    "type": "mysql",
-    "host": "db1.amemais.tech",
-    "port": 3306,
-    "username": "beta",
-    "password": "Noragami.v1",
-    "database": "amabeta",
-    "synchronize": true,
-    "logging": false,
-    "entities": [
-        "src/entity/**/*.ts"
-    ],
-    "migrations": [
-        "src/database/migration/**/*.ts"
-    ],
-    "cli": {
-        "entitiesDir": "src/entity",
-        "migrationsDir": "src/database/migration"
-    }
+    
 }

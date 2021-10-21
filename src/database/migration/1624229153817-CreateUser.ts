@@ -57,7 +57,7 @@ export class CreateUser1624229153817 implements MigrationInterface {
                     },
                     {
                         name: "verified",
-                        type: "tinyint"
+                        type: "boolean"
                     },
                     {
                         name: "user_type",

@@ -1,4 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Auth } from "./AuthModel";
+import { Pet } from "./PetModel";
+import { Planner } from "./PlannerModel";
 
 @Entity("user")
 class User{
@@ -12,7 +15,7 @@ class User{
     @Column()
     last_name: string;
 
-    @Column()
+    @CreateDateColumn()
     birth_date: Date;
 
     @Column()
@@ -42,6 +45,14 @@ class User{
     @Column()
     user_type: number;
 
+    @OneToMany(() => Pet, pet => pet.owner)
+    pets: Pet[];
+
+    @OneToMany(() => Auth, auth => auth.user)
+    auth: Auth[];
+
+    @OneToMany(() => Planner, planner => planner.user)
+    planner: Planner[];
 }
 
 export { User };

@@ -1,4 +1,3 @@
-import { networkInterfaces, type } from "os";
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
 export class CreateAuth1624233407785 implements MigrationInterface {
@@ -17,8 +16,8 @@ export class CreateAuth1624233407785 implements MigrationInterface {
                             generationStrategy: "increment"
                         },
                         {
-                            name : "user_id",
-                            type : "int"
+                            name: "user_id",
+                            type: "int"
                         },
                         
                         {
@@ -44,7 +43,7 @@ export class CreateAuth1624233407785 implements MigrationInterface {
                             onDelete: "CASCADE",
                             onUpdate: "CASCADE"
                         }
-                           ] 
+                    ] 
                 })
             );
         }

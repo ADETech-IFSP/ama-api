@@ -6,14 +6,14 @@ import { isLoggedIn } from "../services/Auth";
 import { uploadImage } from "../services/Cloudnary";
 import { sendEmailCode } from "../services/Email";
 
-export class UserController{
+export class UserController {
 
-    async create(request: Request, response: Response){
-        let { 
-            name, 
-            last_name, 
-            birth_date, 
-            email, 
+    async create(request: Request, response: Response) {
+        let {
+            name,
+            last_name,
+            birth_date,
+            email,
             telephone,
             password,
             photo_url,
@@ -27,24 +27,24 @@ export class UserController{
             telephone
         });
 
-        if(userAlreadyExists){
+        if (userAlreadyExists) {
             return response.json({
                 status: "error",
-                message: "Usuário já cadastrado."
+                message: "Usuário already registered"
             }).status(503);
         }
 
-        const confirm_code =  Math.floor(Math.random()*16777215).toString(16);
+        const confirm_code = Math.floor(Math.random() * 16777215).toString(16);
         const verified = false;
         const user_type = 0;
 
         password = await bcrypt.hash(password, 12);
 
         const user = userRepository.create({
-            name, 
-            last_name, 
-            birth_date, 
-            email, 
+            name,
+            last_name,
+            birth_date,
+            email,
             telephone,
             password,
             photo_url,
@@ -62,13 +62,12 @@ export class UserController{
 
         return response.json({
             status: "success",
-            message: "Usuário cadastrado com sucesso!",
+            message: "User succesfully registered",
             user
         }).status(201);
-
     }
 
-    async read(request: Request, response: Response){
+    async read(request: Request, response: Response) {
         const {
             id
         } = request.params;
@@ -78,27 +77,28 @@ export class UserController{
             id: Number(id)
         })
 
-        if(!user){
+        if (!user) {
             return response.json({
                 status: "error",
-                message: "Usuário não encontrado."
+                message: "User has not found"
             }).status(404);
         }
 
         delete user.password;
+        delete user.confirm_code;
 
         return response.json({
             status: "success",
-            message: "Usuário encontrado com sucesso!",
+            message: "User successfully has found!",
             user
         }).status(200);
     }
 
-    async update(request: Request, response: Response){
-        
+    async update(request: Request, response: Response) {
+
     }
 
-    async confirm(request: Request, response: Response){
+    async confirm(request: Request, response: Response) {
         const {
             id,
             confirm_code
@@ -109,24 +109,24 @@ export class UserController{
             id
         });
 
-        if(!user || user.confirm_code != confirm_code){
+        if (!user || user.confirm_code != confirm_code) {
             return response.json({
                 status: "error",
-                message: "erro no código"
+                message: "Error in code!"
             })
         }
 
-        await userRepository.update(id,{            
+        await userRepository.update(id, {
             verified: true
         });
 
         return response.json({
             status: "success",
-            message: "Has been activated"
+            message: "Has been activated!"
         })
     }
 
-    async delete(request: Request, response: Response){
+    async delete(request: Request, response: Response) {
         const {
             id
         } = request.params;
@@ -135,11 +135,11 @@ export class UserController{
         const user = await userRepository.findOne({
             id: Number(id)
         });
-        
-        if(!user){
+
+        if (!user) {
             return response.json({
                 status: "error",
-                message: "Usuário não encontrado."
+                message: "User has not found"
             }).status(404);
         }
 
@@ -151,13 +151,12 @@ export class UserController{
 
         return response.json({
             status: "success",
-            message: "Usuário deletado com sucesso!",
+            message: "User successfully deleted!",
             user
         })
-
     }
 
-    async uploadProfilePhoto(request: Request, response: Response){
+    async uploadProfilePhoto(request: Request, response: Response) {
         const {
             image,
             token
@@ -166,7 +165,7 @@ export class UserController{
         const userRepository = getCustomRepository(UserRepository);
         const user = await isLoggedIn(token);
 
-        if(!user){
+        if (!user) {
             return response.json({
                 status: "error",
                 message: "User is not logged in."
@@ -183,7 +182,7 @@ export class UserController{
         }).status(201)
     }
 
-    async validate(request: Request, response: Response){
+    async validate(request: Request, response: Response) {
         const {
             email
         } = request.body;
@@ -192,7 +191,7 @@ export class UserController{
             email
         })
 
-        if(!userAlreadyExists){
+        if (!userAlreadyExists) {
             return response.json({
                 status: "success",
                 message: "User available."

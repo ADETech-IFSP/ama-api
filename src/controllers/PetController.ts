@@ -3,23 +3,23 @@ import { getCustomRepository } from "typeorm";
 import { PetRepository } from "../repository/PetRepository";
 import { isLoggedIn } from "../services/Auth";
 
-export class PetController{
+export class PetController {
 
-    async create (request: Request, response: Response){
-        let{
+    async create(request: Request, response: Response) {
+        let {
             name,
             breed,
             birth_date,
             gender,
             photo_url,
             description,
-            category_id,
+            species
         } = request.body;
         var token = (request.headers.token || "").toString();
 
         const user = await isLoggedIn(token);
 
-        if(!user){
+        if (!user) {
             return response.status(500).json({
                 status: "error",
                 message: "Expired session!"
@@ -35,21 +35,19 @@ export class PetController{
             gender,
             photo_url,
             description,
-            category_id,
-            owner_id: user.id,
+            owner: user,
         });
         await petRepository.save(pet);
 
         return response.json({
             status: "success",
-            message: "Pet add successfully!", 
+            message: "Pet add successfully!",
             pet
-
         }).status(201)
     }
 
-    async read(request: Request, response: Response){
-        const{
+    async read(request: Request, response: Response) {
+        const {
             id
         } = request.params;
 
@@ -58,21 +56,21 @@ export class PetController{
             id: Number(id)
         })
 
-        if(!pet){
+        if (!pet) {
             return response.json({
                 status: "error",
                 message: "Pet has not found."
             }).status(404);
         }
-        
+
         return response.json({
             status: "success",
-            message: "Pet deleted successfully!",
+            message: "Pet successfully has found!",
             pet
         }).status(200);
     }
 
-    async update(request: Request, response: Response){
+    async update(request: Request, response: Response) {
         const {
             name,
             breed,
@@ -80,27 +78,29 @@ export class PetController{
             gender,
             photo_url,
             description,
-            category_id
+            species_id
         } = request.body;
         let id = Number(request.params.id);
         var token = (request.headers.token || "").toString();
 
         const user = await isLoggedIn(token);
 
-        if(!user){
+        if (!user) {
             return response.status(500).json({
-                status:"error",
-                message:"Session expired!"
+                status: "error",
+                message: "Session expired!"
             });
         }
 
         const petRepository = getCustomRepository(PetRepository);
-        const pet = await petRepository.findOne(id);
+        const pet = await petRepository.findOne(id, {
+            relations: ['user']
+        });
 
-        if(pet.owner_id != user.id || !pet){
+        if (pet.owner != user || !pet) {
             return response.json({
                 status: "error",
-                message: "Pet not found." 
+                message: "Pet has not found."
             }).status(404);
         }
 
@@ -111,20 +111,19 @@ export class PetController{
             gender,
             photo_url,
             description,
-            category_id
+            species_id
         }
         await petRepository.update(id, updatedPet);
 
         return response.status(201).json({
-            status:"success",
-            message: "Pet has updated with success",
+            status: "success",
+            message: "Pet has successfully updated",
             updatedPet
         })
-
     }
 
-    async delete(request: Request, response: Response){
-        const{
+    async delete(request: Request, response: Response) {
+        const {
             id
         } = request.params;
 
@@ -133,7 +132,7 @@ export class PetController{
             id: Number(id)
         });
 
-        if(!pet){
+        if (!pet) {
             return response.json({
                 status: "error",
                 message: "Pet has not found."
@@ -149,23 +148,22 @@ export class PetController{
             message: "Pet deleted successfully!",
             pet
         })
-
     }
-    
-    async getAllPets(request: Request, response: Response){
+
+    async getAllPets(request: Request, response: Response) {
         var token = (request.headers.token || "").toString();
         const user = await isLoggedIn(token);
 
-        if(!user){
+        if (!user) {
             return response.status(500).json({
-                status:"error",
-                message:"Session expired!"
+                status: "error",
+                message: "Session expired!"
             });
         }
 
         const petRepository = getCustomRepository(PetRepository);
         const pets = await petRepository.find({
-            owner_id: user.id
+            owner: user
         });
 
         return response.status(200).json({
@@ -174,5 +172,4 @@ export class PetController{
             pets
         })
     }
-
 }

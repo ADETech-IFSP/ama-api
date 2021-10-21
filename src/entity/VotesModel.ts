@@ -1,16 +1,18 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("category")
-class Category{
+@Entity("Votes")
+class Votes {
     @PrimaryGeneratedColumn()
     readonly id: number;
 
     @Column()
-    name: string;
+    vote: number;
 
     @Column()
-    description: string;
-    
+    user_id: number;
+
+    @Column()
+    question_id: number;
 }
 
-    export{ Category };
+export { Votes };

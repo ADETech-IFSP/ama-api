@@ -1,5 +1,4 @@
-import { type } from "os";
-import {MigrationInterface, QueryRunner,Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
 export class CreateComment1625318588704 implements MigrationInterface {
 
@@ -16,20 +15,20 @@ export class CreateComment1625318588704 implements MigrationInterface {
                         generationStrategy : "increment"
                     },
                     {
-                        name :"user_id",
-                        type : "int"
-                    },
-                    {
-                        name : "comment",
-                        type : "varchar"
-                    },
-                    { 
-                        name : "is_solution",
-                        type : "tinyint"
+                        name: "user_id",
+                        type: "int"
                     },
                     {
                         name: "question_id",
-                        type : "int"
+                        type: "int"
+                    },
+                    {
+                        name: "comment",
+                        type: "varchar"
+                    },
+                    {
+                        name: "solved",
+                        type: "boolean"
                     }
 
                 ],
@@ -52,12 +51,12 @@ export class CreateComment1625318588704 implements MigrationInterface {
                     }
                 ]
             })
-        )
+        );
 
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('comment')
+    await queryRunner.dropTable('comment');
     }
 
 }

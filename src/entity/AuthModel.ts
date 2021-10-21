@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn  } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn  } from "typeorm";
+import { User } from "./UserModel";
 
 @Entity("auth")
 class Auth {
@@ -6,8 +7,8 @@ class Auth {
     @PrimaryGeneratedColumn()    
     readonly id : number;
 
-    @Column()
-    user_id : number;
+    @ManyToOne(() => User, user => user.auth)
+    user : User;
 
     @Column()
     token : string;

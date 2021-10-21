@@ -3,11 +3,11 @@ import { isLoggedIn, validateLogin } from "../services/Auth";
 
 class AuthController {
 
-    async doLogin(request: Request, response: Response){
+    async doLogin(request: Request, response: Response) {
         const { email, password } = request.body;
         const token = await validateLogin(email, password);
 
-        if(!token){
+        if (!token) {
             return response.status(500).json({
                 status: "error",
                 message: "Verifique os dados de acesso!"
@@ -21,17 +21,17 @@ class AuthController {
         })
     }
 
-    async validate(request: Request, response: Response){
+    async validate(request: Request, response: Response) {
         const { token } = request.body;
         const user = await isLoggedIn(token);
 
-        if(!user){
+        if (!user) {
             return response.status(500).json({
                 status: "error",
                 message: "Sessão expirada!"
             });
         }
-        
+
         delete user.password;
         delete user.confirm_code;
 

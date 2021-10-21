@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { QuestionRepository } from "../repository/QuestionRepository";
 import { getCustomRepository } from "typeorm";
 import { isLoggedIn } from "../services/Auth";
-import { Pet } from "../entity/PetModel";
 export class QuestionController {
 
     async create(request: Request, response: Response) {
@@ -12,7 +11,7 @@ export class QuestionController {
             vote_down,
             vote_up,
             state,
-            question_owner,
+            question_owner
         } = request.body;
 
         const questionRepository = getCustomRepository(QuestionRepository);
@@ -55,12 +54,12 @@ export class QuestionController {
         if (!question) {
             return response.json({
                 staus: "error",
-                message: "Question not found."
+                message: "Question has not found."
             }).status(404);
         }
         return response.json({
             status: "success",
-            message: "Question found successfully!",
+            message: "Question successfully has found!",
             question
         }).status(200);
     }

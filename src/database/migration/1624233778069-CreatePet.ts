@@ -23,7 +23,7 @@ export class CreatePet1624233778069 implements MigrationInterface {
                         type:"varchar"
                     },
                     {
-                        name: "category_id",
+                        name: "species_id",
                         type: "int"
                     },
                     {
@@ -32,7 +32,7 @@ export class CreatePet1624233778069 implements MigrationInterface {
                     },
                     {
                         name: "gender",
-                        type: "tinyint"
+                        type: "boolean"
                     },
                     {
                         name: "photo_url",

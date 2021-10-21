@@ -17,14 +17,17 @@ export const isLoggedIn = async (token: string) => {
     const authRepository = getCustomRepository(AuthRepository);
 
     const auth = await authRepository.findOne({
-        token
+        where:{
+            token
+        },
+        relations: ['user']
     })
 
     if(!auth){
         return null;
     }
 
-    return userRepository.getUser(auth.user_id);
+    return auth.user;
 }
 
 export const validateLogin = async (email : string, password : string) => {
@@ -40,7 +43,7 @@ export const validateLogin = async (email : string, password : string) => {
     if(isValidPassword){
         const token = generateToken();
         const auth = authRepository.create({
-            user_id: user.id,
+            user,
             token,
             created_date: new Date()
         })

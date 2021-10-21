@@ -7,7 +7,7 @@ var cors = require('cors')
 createConnection();
 const app = express();
 
-app.use(cors())
+app.use(cors()) // VERIFICAR NO IONIC 
 app.use(express.json());
 app.use(router);
 
