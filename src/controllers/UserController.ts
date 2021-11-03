@@ -102,11 +102,11 @@ export class UserController {
         const {
             id,
             confirm_code
-        } = request.body;
+        } = request.params;
 
         const userRepository = getCustomRepository(UserRepository);
         const user = await userRepository.findOne({
-            id
+            id: Number(id)
         });
 
         if (!user || user.confirm_code != confirm_code) {

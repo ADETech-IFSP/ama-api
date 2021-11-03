@@ -176,7 +176,7 @@ function getTemplate(user: User){
                                                                                     <tr>
                                                                                         <td align="left" class="esd-block-text">
                                                                                             <p style="font-size: 32px;background-color: ${user.confirm_code};">
-                                                                                                <a href="https://amemais.tech/confirm/${user.id}?code=${user.confirm_code}">Confirmar conta</a>
+                                                                                                <a href="https://api.amemais.tech/user/account/confirm/${user.id}}/${user.confirm_code}">Confirmar conta</a>
                                                                                             </p>
                                                                                         </td>
                                                                                     </tr>
