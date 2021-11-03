@@ -205,4 +205,34 @@ export class UserController {
 
     }
 
+    async validateAccount(request: Request, response: Response) {
+        const {
+            email
+        } = request.body;
+
+        const userRepository = getCustomRepository(UserRepository);
+        const user = await userRepository.findOne({
+            email
+        });
+
+        if (!user) {
+            return response.json({
+                status: "error",
+                message: "User has not found"
+            }).status(404);
+        }
+
+        if (!user.verified) {
+            return response.json({
+                status: "error",
+                message: "The account is not active."
+            }).status(403);
+        }
+
+        return response.json({
+            status: "success",
+            message: "The account is active.",
+            user
+        }).status(200);
+    }
 }

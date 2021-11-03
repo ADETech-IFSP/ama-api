@@ -170,12 +170,14 @@ function getTemplate(user: User){
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" class="esd-block-text">
-                                                                                            <p>Código de confirmação:&nbsp;</p>
+                                                                                            <p>Clique no link abaixo para confirmar sua conta:&nbsp;</p>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" class="esd-block-text">
-                                                                                            <p style="font-size: 32px;background-color: ${user.confirm_code};">#${user.confirm_code}</p>
+                                                                                            <p style="font-size: 32px;background-color: ${user.confirm_code};">
+                                                                                                <a href="https://amemais.tech/confirm/${user.id}?code=${user.confirm_code}">Confirmar conta</a>
+                                                                                            </p>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>

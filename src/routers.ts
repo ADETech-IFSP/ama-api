@@ -23,7 +23,8 @@ router.get('/user/delete/:id', userController.delete);
 router.get('/user/:id', userController.read);
 router.post('/user/photo-upload', userController.uploadProfilePhoto);
 router.post('/user/validate', userController.validate);
-router.post('/user/account/validate', userController.confirm);
+router.post('/user/account/confirm', userController.confirm);
+router.post('/user/account/validate', userController.validateAccount);
 router.get('/users/:id/pets', petController.getAllPets);
 
 router.post('/forum/create', questionController.create);
