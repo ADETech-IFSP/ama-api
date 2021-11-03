@@ -110,20 +110,14 @@ export class UserController {
         });
 
         if (!user || user.confirm_code != confirm_code) {
-            return response.json({
-                status: "error",
-                message: "Error in code!"
-            })
+            return response.redirect("https://amemais.tech/confirm/error");
         }
 
         await userRepository.update(id, {
             verified: true
         });
 
-        return response.json({
-            status: "success",
-            message: "Has been activated!"
-        })
+        return response.redirect("https://amemais.tech/confirm/success");
     }
 
     async delete(request: Request, response: Response) {
